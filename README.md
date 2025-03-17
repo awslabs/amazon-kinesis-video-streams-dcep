@@ -2,7 +2,7 @@
 
 The goal of the [Data Channel Establishment Protocol (DCEP)](https://datatracker.ietf.org/doc/html/rfc8832) library is to provide DCEP Serializer and Deserializer functionalities.
 
-What is DCEP?
+## What is DCEP?
 
 DCEP is a simple protocol for establishing symmetric data channels between WebRTC peers. 
 It uses a two-way handshake and allows sending of user data without waiting for the handshake to complete.
