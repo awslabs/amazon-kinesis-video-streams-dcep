@@ -10,6 +10,29 @@
 
 /*-----------------------------------------------------------*/
 
+/* DCEP Header:
+ *
+ *  0                   1                   2                   3
+ *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |  Message Type |  Channel Type |            Priority           |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |                    Reliability Parameter                      |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |         Label Length          |       Protocol Length         |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ */
+#define DCEP_HEADER_LENGTH                      12
+#define DCEP_MESSAGE_TYPE_OFFSET                0
+#define DCEP_MESSAGE_TYPE_LENGTH                1
+#define DCEP_CHANNEL_TYPE_OFFSET                1
+#define DCEP_PRIORITY_OFFSET                    2
+#define DCEP_RELIABILITY_PARAMETER_OFFSET       4
+#define DCEP_LABEL_LENGTH_OFFSET                8
+#define DCEP_PROTOCOL_LENGTH_OFFSET             10
+
+/*-----------------------------------------------------------*/
+
 typedef enum DcepResult
 {
     DCEP_RESULT_OK,

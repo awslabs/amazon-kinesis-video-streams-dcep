@@ -13,6 +13,10 @@ DcepResult_t Dcep_SerializeChannelOpenMessage( DcepContext_t * pCtx,
                                                uint8_t * pBuffer,
                                                size_t * pBufferLength );
 
+DcepResult_t Dcep_SerializeChannelAckMessage( DcepContext_t * pCtx,
+                                                uint8_t * pBuffer,
+                                                size_t * pBufferLength );
+
 DcepResult_t Dcep_DeserializeChannelOpenMessage( DcepContext_t * pCtx,
                                                  const uint8_t * pDcepMessage,
                                                  size_t dcepMessageLength,

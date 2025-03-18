@@ -16,28 +16,6 @@
 
 /*-----------------------------------------------------------*/
 
-/* DCEP Header:
- *
- *  0                   1                   2                   3
- *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |  Message Type |  Channel Type |            Priority           |
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |                    Reliability Parameter                      |
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |         Label Length          |       Protocol Length         |
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- */
-#define DCEP_HEADER_LENGTH                      12
-#define DCEP_MESSAGE_TYPE_OFFSET                0
-#define DCEP_CHANNEL_TYPE_OFFSET                1
-#define DCEP_PRIORITY_OFFSET                    2
-#define DCEP_RELIABILITY_PARAMETER_OFFSET       4
-#define DCEP_LABEL_LENGTH_OFFSET                8
-#define DCEP_PROTOCOL_LENGTH_OFFSET             10
-
-/*-----------------------------------------------------------*/
-
 DcepResult_t Dcep_Init( DcepContext_t * pCtx )
 {
     DcepResult_t result = DCEP_RESULT_OK;
@@ -151,6 +129,33 @@ DcepResult_t Dcep_SerializeChannelOpenMessage( DcepContext_t * pCtx,
     if( result == DCEP_RESULT_OK )
     {
         *pBufferLength = serializedMessageLength;
+    }
+
+    return result;
+}
+
+/*-----------------------------------------------------------*/
+
+DcepResult_t Dcep_SerializeChannelAckMessage( DcepContext_t * pCtx,
+                                               uint8_t * pBuffer,
+                                               size_t * pBufferLength )
+{
+    DcepResult_t result = DCEP_RESULT_OK;
+    uint32_t reliabilityValue = 0;
+    size_t serializedMessageLength = 0;
+
+    if( ( pCtx == NULL ) ||
+        ( pBuffer == NULL ) ||
+        ( pBufferLength == NULL ) ||
+        ( *pBufferLength < DCEP_MESSAGE_TYPE_LENGTH ) )
+    {
+        result = DCEP_RESULT_BAD_PARAM;
+    }
+
+    if( result == DCEP_RESULT_OK )
+    {
+        pBuffer[ DCEP_MESSAGE_TYPE_OFFSET ] = DCEP_MESSAGE_DATA_CHANNEL_ACK;
+        *pBufferLength = DCEP_MESSAGE_TYPE_LENGTH;
     }
 
     return result;
