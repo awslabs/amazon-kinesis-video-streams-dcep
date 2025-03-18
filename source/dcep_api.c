@@ -16,6 +16,16 @@
 
 /*-----------------------------------------------------------*/
 
+#define DCEP_MESSAGE_TYPE_OFFSET                0
+#define DCEP_MESSAGE_TYPE_LENGTH                1
+#define DCEP_CHANNEL_TYPE_OFFSET                1
+#define DCEP_PRIORITY_OFFSET                    2
+#define DCEP_RELIABILITY_PARAMETER_OFFSET       4
+#define DCEP_LABEL_LENGTH_OFFSET                8
+#define DCEP_PROTOCOL_LENGTH_OFFSET             10
+
+/*-----------------------------------------------------------*/
+
 DcepResult_t Dcep_Init( DcepContext_t * pCtx )
 {
     DcepResult_t result = DCEP_RESULT_OK;
