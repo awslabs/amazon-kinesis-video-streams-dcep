@@ -57,7 +57,8 @@ typedef struct DcepContext
     DcepReadWriteFunctions_t readWriteFunctions;
 } DcepContext_t;
 
-/*
+/* DCEP DATA_CHANNEL_OPEN Message:
+ *
  * RFC - https://datatracker.ietf.org/doc/html/draft-ietf-rtcweb-data-protocol-09#section-5.1
  *
  *  0                   1                   2                   3
