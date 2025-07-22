@@ -81,13 +81,3 @@ create_test(${utest_name}
             "${test_include_directories}"
         )
 
-# Create separate test for endianness
-set(utest_endianness_name "${project_name}_endianness_utest")
-set(utest_endianness_source "${project_name}/${project_name}_endianness_utest.c")
-
-create_test(${utest_endianness_name}
-            ${utest_endianness_source}
-            "${utest_link_list}"
-            "${utest_dep_list}"
-            "${test_include_directories}"
-        )

@@ -34,7 +34,7 @@ void tearDown(void)
 /**
  * @brief Validate Dcep_Init happy path.
  */
-void test_Dcep_Init(void)
+void test_dcepInit(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -51,7 +51,7 @@ void test_Dcep_Init(void)
 /**
  * @brief Validate Dcep_Init with bad parameters.
  */
-void test_Dcep_Init_BadParams(void)
+void test_dcepInit_BadParams(void)
 {
     DcepResult_t result;
 
@@ -65,7 +65,7 @@ void test_Dcep_Init_BadParams(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage happy path with reliable channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_Reliable(void)
+void test_dcepSerializeChannelOpenMessage_Reliable(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -112,7 +112,7 @@ void test_Dcep_SerializeChannelOpenMessage_Reliable(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with partial reliable retransmit channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_PartialReliableRetransmit(void)
+void test_dcepSerializeChannelOpenMessage_PartialReliableRetransmit(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -147,7 +147,7 @@ void test_Dcep_SerializeChannelOpenMessage_PartialReliableRetransmit(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with partial reliable timed channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_PartialReliableTimed(void)
+void test_dcepSerializeChannelOpenMessage_PartialReliableTimed(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -182,7 +182,7 @@ void test_Dcep_SerializeChannelOpenMessage_PartialReliableTimed(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with unordered reliable channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_ReliableUnordered(void)
+void test_dcepSerializeChannelOpenMessage_ReliableUnordered(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -216,7 +216,7 @@ void test_Dcep_SerializeChannelOpenMessage_ReliableUnordered(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with partial reliable retransmit unordered channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_PartialReliableRetransmitUnordered(void)
+void test_dcepSerializeChannelOpenMessage_PartialReliableRetransmitUnordered(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -251,7 +251,7 @@ void test_Dcep_SerializeChannelOpenMessage_PartialReliableRetransmitUnordered(vo
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with partial reliable timed unordered channel.
  */
-void test_Dcep_SerializeChannelOpenMessage_PartialReliableTimedUnordered(void)
+void test_dcepSerializeChannelOpenMessage_PartialReliableTimedUnordered(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -286,7 +286,7 @@ void test_Dcep_SerializeChannelOpenMessage_PartialReliableTimedUnordered(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with empty channel name and protocol.
  */
-void test_Dcep_SerializeChannelOpenMessage_EmptyNameAndProtocol(void)
+void test_dcepSerializeChannelOpenMessage_EmptyNameAndProtocol(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -320,7 +320,7 @@ void test_Dcep_SerializeChannelOpenMessage_EmptyNameAndProtocol(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with bad parameters.
  */
-void test_Dcep_SerializeChannelOpenMessage_BadParams(void)
+void test_dcepSerializeChannelOpenMessage_BadParams(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -370,7 +370,7 @@ void test_Dcep_SerializeChannelOpenMessage_BadParams(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with out of memory for channel name.
  */
-void test_Dcep_SerializeChannelOpenMessage_OutOfMemory_ChannelName(void)
+void test_dcepSerializeChannelOpenMessage_OutOfMemory_ChannelName(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -400,7 +400,7 @@ void test_Dcep_SerializeChannelOpenMessage_OutOfMemory_ChannelName(void)
 /**
  * @brief Validate Dcep_SerializeChannelOpenMessage with out of memory for protocol.
  */
-void test_Dcep_SerializeChannelOpenMessage_OutOfMemory_Protocol(void)
+void test_dcepSerializeChannelOpenMessage_OutOfMemory_Protocol(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -433,7 +433,7 @@ void test_Dcep_SerializeChannelOpenMessage_OutOfMemory_Protocol(void)
 /**
  * @brief Validate Dcep_SerializeChannelAckMessage happy path.
  */
-void test_Dcep_SerializeChannelAckMessage(void)
+void test_dcepSerializeChannelAckMessage(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -454,7 +454,7 @@ void test_Dcep_SerializeChannelAckMessage(void)
 /**
  * @brief Validate Dcep_SerializeChannelAckMessage with bad parameters.
  */
-void test_Dcep_SerializeChannelAckMessage_BadParams(void)
+void test_dcepSerializeChannelAckMessage_BadParams(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -494,7 +494,7 @@ void test_Dcep_SerializeChannelAckMessage_BadParams(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage happy path with reliable channel.
  */
-void test_Dcep_DeserializeChannelOpenMessage_Reliable(void)
+void test_dcepDeserializeChannelOpenMessage_Reliable(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -544,7 +544,7 @@ void test_Dcep_DeserializeChannelOpenMessage_Reliable(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with partial reliable retransmit channel.
  */
-void test_Dcep_DeserializeChannelOpenMessage_PartialReliableRetransmit(void)
+void test_dcepDeserializeChannelOpenMessage_PartialReliableRetransmit(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -589,7 +589,7 @@ void test_Dcep_DeserializeChannelOpenMessage_PartialReliableRetransmit(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with partial reliable timed channel.
  */
-void test_Dcep_DeserializeChannelOpenMessage_PartialReliableTimed(void)
+void test_dcepDeserializeChannelOpenMessage_PartialReliableTimed(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -634,7 +634,7 @@ void test_Dcep_DeserializeChannelOpenMessage_PartialReliableTimed(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with empty channel name and protocol.
  */
-void test_Dcep_DeserializeChannelOpenMessage_EmptyNameAndProtocol(void)
+void test_dcepDeserializeChannelOpenMessage_EmptyNameAndProtocol(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -677,7 +677,7 @@ void test_Dcep_DeserializeChannelOpenMessage_EmptyNameAndProtocol(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with bad parameters.
  */
-void test_Dcep_DeserializeChannelOpenMessage_BadParams(void)
+void test_dcepDeserializeChannelOpenMessage_BadParams(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -734,7 +734,7 @@ void test_Dcep_DeserializeChannelOpenMessage_BadParams(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with malformed message - insufficient data for channel name.
  */
-void test_Dcep_DeserializeChannelOpenMessage_MalformedMessage_ChannelName(void)
+void test_dcepDeserializeChannelOpenMessage_MalformedMessage_ChannelName(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -763,7 +763,7 @@ void test_Dcep_DeserializeChannelOpenMessage_MalformedMessage_ChannelName(void)
 /**
  * @brief Validate Dcep_DeserializeChannelOpenMessage with malformed message - insufficient data for protocol.
  */
-void test_Dcep_DeserializeChannelOpenMessage_MalformedMessage_Protocol(void)
+void test_dcepDeserializeChannelOpenMessage_MalformedMessage_Protocol(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -795,7 +795,7 @@ void test_Dcep_DeserializeChannelOpenMessage_MalformedMessage_Protocol(void)
 /**
  * @brief Validate Dcep_GetMessageType happy path with channel open message.
  */
-void test_Dcep_GetMessageType_ChannelOpen(void)
+void test_dcepGetMessageType_ChannelOpen(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -821,7 +821,7 @@ void test_Dcep_GetMessageType_ChannelOpen(void)
 /**
  * @brief Validate Dcep_GetMessageType happy path with channel ack message.
  */
-void test_Dcep_GetMessageType_ChannelAck(void)
+void test_dcepGetMessageType_ChannelAck(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -845,7 +845,7 @@ void test_Dcep_GetMessageType_ChannelAck(void)
 /**
  * @brief Validate Dcep_GetMessageType with bad parameters.
  */
-void test_Dcep_GetMessageType_BadParams(void)
+void test_dcepGetMessageType_BadParams(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -887,7 +887,7 @@ void test_Dcep_GetMessageType_BadParams(void)
 /**
  * @brief Validate Dcep_GetMessageType with malformed message - invalid message type.
  */
-void test_Dcep_GetMessageType_MalformedMessage(void)
+void test_dcepGetMessageType_MalformedMessage(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -910,7 +910,7 @@ void test_Dcep_GetMessageType_MalformedMessage(void)
 /**
  * @brief Validate round-trip serialization and deserialization with all channel types.
  */
-void test_Dcep_RoundTrip_AllChannelTypes(void)
+void test_dcepRoundTrip_AllChannelTypes(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
@@ -1001,7 +1001,7 @@ void test_Dcep_RoundTrip_AllChannelTypes(void)
 /**
  * @brief Validate round-trip with maximum size channel name and protocol.
  */
-void test_Dcep_RoundTrip_MaximumSizeData(void)
+void test_dcepRoundTrip_MaximumSizeData(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
