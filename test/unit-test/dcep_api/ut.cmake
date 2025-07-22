@@ -2,7 +2,7 @@
 include( ${MODULE_ROOT_DIR}/dcepFilePaths.cmake )
 
 # ====================  Define your project name (edit) ========================
-set( project_name "dcep" )
+set( project_name "dcep_api" )
 
 message( STATUS "${project_name}" )
 
@@ -10,6 +10,7 @@ message( STATUS "${project_name}" )
 
 # List the files to mock here.
 list(APPEND mock_list
+            "${MODULE_ROOT_DIR}/source/include/dcep_data_types.h"
         )
 # List the directories your mocks need.
 list(APPEND mock_include_list
@@ -19,6 +20,7 @@ list(APPEND mock_include_list
 
 # List the definitions of your mocks to control what to be included.
 list(APPEND mock_define_list
+            ""
        )
 
 # ================= Create the library under test here (edit) ==================
@@ -48,18 +50,12 @@ list(APPEND test_include_directories
 set(mock_name "${project_name}_mock")
 set(real_name "${project_name}_real")
 
-# Only create mocks if we have files to mock
-if(mock_list)
-    create_mock_list(${mock_name}
-                    "${mock_list}"
-                    "${MODULE_ROOT_DIR}/test/unit-test/cmock/project.yml"
-                    "${mock_include_list}"
-                    "${mock_define_list}"
-            )
-    set(mock_dependency "${mock_name}")
-else()
-    set(mock_dependency "")
-endif()
+create_mock_list(${mock_name}
+                "${mock_list}"
+                "${MODULE_ROOT_DIR}/test/unit-test/cmock/project.yml"
+                "${mock_include_list}"
+                "${mock_define_list}"
+        )
 
 create_real_library(${real_name}
                     "${real_source_files}"
