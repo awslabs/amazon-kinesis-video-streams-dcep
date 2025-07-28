@@ -1064,23 +1064,115 @@ void test_dcepGetMessageType_MalformedMessage(void)
     TEST_ASSERT_EQUAL(DCEP_RESULT_MALFORMED_MESSAGE, result);
 }
 
-/* ==============================  Test Cases for Round-trip Serialization/Deserialization ============================== */
+/* ==============================  Test Cases for Edge Cases ============================== */
 
 /**
- * @brief Validate round-trip serialization and deserialization with all channel types.
+ * @brief Test with maximum values for priority and reliability parameters.
  */
-void test_dcepRoundTrip_ReliableOnly(void)
+void test_dcepSerializeChannelOpenMessage_MaxValues(void)
 {
     DcepResult_t result;
     DcepContext_t ctx;
-    DcepChannelOpenMessage_t original = {0}, deserialized = {0};
+    DcepChannelOpenMessage_t channelOpenMessage = {0};
     size_t bufferLength = MAX_BUFFER_LENGTH;
 
     result = Dcep_Init(&ctx);
     TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
 
-    original.channelType = DCEP_DATA_CHANNEL_RELIABLE;
-    original.priority = 0x1234;
+    channelOpenMessage.channelType = DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT;
+    channelOpenMessage.priority = 0xFFFF;
+    channelOpenMessage.numRetransmissions = 0xFFFFFFFF;
+    channelOpenMessage.pChannelName = NULL;
+    channelOpenMessage.channelNameLength = 0;
+    channelOpenMessage.pProtocol = NULL;
+    channelOpenMessage.protocolLength = 0;
+
+    result = Dcep_SerializeChannelOpenMessage(&ctx, &channelOpenMessage, testBuffer, &bufferLength);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
+    TEST_ASSERT_EQUAL(DCEP_HEADER_LENGTH, bufferLength);
+}
+
+/**
+ * @brief Test deserialization with invalid channel type.
+ */
+void test_dcepDeserializeChannelOpenMessage_InvalidChannelType(void)
+{
+    DcepResult_t result;
+    DcepContext_t ctx;
+    DcepChannelOpenMessage_t deserializedMessage = {0};
+    uint8_t invalidMessage[] = {
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,
+        0xFF,                           /* Invalid channel type */
+        0x12, 0x34,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00
+    };
+
+    result = Dcep_Init(&ctx);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
+
+    result = Dcep_DeserializeChannelOpenMessage(&ctx, invalidMessage, sizeof(invalidMessage), &deserializedMessage);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result); /* Library accepts any channel type value */
+    TEST_ASSERT_EQUAL(0xFF, deserializedMessage.channelType);
+}
+
+/**
+ * @brief Test with maximum length channel name and protocol.
+ */
+void test_dcepSerializeChannelOpenMessage_MaxLengthStrings(void)
+{
+    DcepResult_t result;
+    DcepContext_t ctx;
+    DcepChannelOpenMessage_t channelOpenMessage = {0};
+    size_t bufferLength = MAX_BUFFER_LENGTH;
+    uint8_t maxChannelName[255];
+    uint8_t maxProtocol[255];
+
+    /* Fill with test data */
+    memset(maxChannelName, 'A', sizeof(maxChannelName));
+    memset(maxProtocol, 'B', sizeof(maxProtocol));
+
+    result = Dcep_Init(&ctx);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
+
+    channelOpenMessage.channelType = DCEP_DATA_CHANNEL_RELIABLE;
+    channelOpenMessage.priority = 0x1234;
+    channelOpenMessage.pChannelName = maxChannelName;
+    channelOpenMessage.channelNameLength = sizeof(maxChannelName);
+    channelOpenMessage.pProtocol = maxProtocol;
+    channelOpenMessage.protocolLength = sizeof(maxProtocol);
+
+    result = Dcep_SerializeChannelOpenMessage(&ctx, &channelOpenMessage, testBuffer, &bufferLength);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
+    TEST_ASSERT_EQUAL(DCEP_HEADER_LENGTH + sizeof(maxChannelName) + sizeof(maxProtocol), bufferLength);
+}
+
+/* ==============================  Test Cases for Round-trip Serialization/Deserialization ============================== */
+
+/**
+ * @brief Validate round-trip with partial reliable retransmit channel.
+ */
+void test_dcepRoundTrip_PartialReliableRetransmit(void)
+{
+    DcepResult_t result;
+    DcepContext_t ctx;
+    DcepChannelOpenMessage_t original, deserialized;
+    size_t bufferLength = MAX_BUFFER_LENGTH;
+    uint8_t channelName[] = "test";
+    uint8_t protocol[] = "proto";
+
+    result = Dcep_Init(&ctx);
+    TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
+
+    original.channelType = DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT;
+    original.priority = 0x5678;
+    original.numRetransmissions = 10;
+    original.maxLifetimeInMilliseconds = 2000;
+    original.pChannelName = channelName;
+    original.channelNameLength = sizeof(channelName) - 1;
+    original.pProtocol = protocol;
+    original.protocolLength = sizeof(protocol) - 1;
 
     result = Dcep_SerializeChannelOpenMessage(&ctx, &original, testBuffer, &bufferLength);
     TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
@@ -1090,8 +1182,9 @@ void test_dcepRoundTrip_ReliableOnly(void)
 
     TEST_ASSERT_EQUAL(original.channelType, deserialized.channelType);
     TEST_ASSERT_EQUAL(original.priority, deserialized.priority);
-    TEST_ASSERT_EQUAL(0, deserialized.channelNameLength);
-    TEST_ASSERT_EQUAL(0, deserialized.protocolLength);
-    TEST_ASSERT_NULL(deserialized.pChannelName);
-    TEST_ASSERT_NULL(deserialized.pProtocol);
+    TEST_ASSERT_EQUAL(original.numRetransmissions, deserialized.numRetransmissions);
+    TEST_ASSERT_EQUAL(original.channelNameLength, deserialized.channelNameLength);
+    TEST_ASSERT_EQUAL(original.protocolLength, deserialized.protocolLength);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(original.pChannelName, deserialized.pChannelName, original.channelNameLength);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(original.pProtocol, deserialized.pProtocol, original.protocolLength);
 }
