@@ -76,12 +76,12 @@ void test_dcepSerializeChannelOpenMessage_Reliable(void)
 
     // Expected serialized message
     uint8_t expected[] = {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,    // 0x03
-        DCEP_DATA_CHANNEL_RELIABLE,        // 0x00
-        0x12, 0x34,                        // Priority (0x1234) in little endian
-        0x00, 0x00, 0x00, 0x00,            // Reliability param = 0
-        0x00, 0x0C,                        // Channel name length = 12
-        0x00, 0x0D,                        // Protocol length = 13
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,     // 0x03
+        DCEP_DATA_CHANNEL_RELIABLE,         // 0x00
+        0x12, 0x34,                         // Priority (0x1234) in little endian
+        0x00, 0x00, 0x00, 0x00,             // Reliability param = 0
+        0x00, 0x0C,                         // Channel name length = 12
+        0x00, 0x0D,                         // Protocol length = 13
         't','e','s','t','-','c','h','a','n','n','e','l',
         't','e','s','t','-','p','r','o','t','o','c','o','l'
     };
@@ -118,12 +118,12 @@ void test_dcepSerializeChannelOpenMessage_PartialReliableRetransmit(void)
     size_t bufferLength = MAX_BUFFER_LENGTH;
     // Expected serialized message
     uint8_t expected[] = {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,     // 0x03
-        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT,  // 0x01
-        0x56, 0x78,                         // Priority (0x5678)
-        0x00, 0x00, 0x00, 0x05,             // Retransmissions = 5
-        0x00, 0x00,                         // Channel name length = 0
-        0x00, 0x00                          // Protocol length = 0
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,                 // 0x03
+        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT,      // 0x01
+        0x56, 0x78,                                     // Priority (0x5678)
+        0x00, 0x00, 0x00, 0x05,                         // Retransmissions = 5
+        0x00, 0x00,                                     // Channel name length = 0
+        0x00, 0x00                                      // Protocol length = 0
     };
 
     result = Dcep_Init(&ctx);
@@ -159,12 +159,12 @@ void test_dcepSerializeChannelOpenMessage_PartialReliableRetransmit(void)
         size_t bufferLength = MAX_BUFFER_LENGTH;
         // Expected serialized message
         uint8_t expected[] = {
-            DCEP_MESSAGE_DATA_CHANNEL_OPEN,              // 0x03
+            DCEP_MESSAGE_DATA_CHANNEL_OPEN,             // 0x03
             DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_TIMED,   // 0x02
-            0xAB, 0xCD,                                  // Priority (0xABCD)
-            0x00, 0x00, 0x03, 0xE8,                      // maxLifetimeInMilliseconds = 1000 (0x03E8)
-            0x00, 0x00,                                  // Channel name length = 0
-            0x00, 0x00                                   // Protocol length = 0
+            0xAB, 0xCD,                                 // Priority (0xABCD)
+            0x00, 0x00, 0x03, 0xE8,                     // maxLifetimeInMilliseconds = 1000 (0x03E8)
+            0x00, 0x00,                                 // Channel name length = 0
+            0x00, 0x00                                  // Protocol length = 0
         };
 
         result = Dcep_Init(&ctx);
@@ -200,12 +200,12 @@ void test_dcepSerializeChannelOpenMessage_ReliableUnordered(void)
     size_t bufferLength = MAX_BUFFER_LENGTH;
     // Expected serialized message
     uint8_t expected[] = {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,              // 0x03
-        DCEP_DATA_CHANNEL_RELIABLE_UNORDERED,        // 0x80
-        0xEF, 0x01,                                  // Priority (0xEF01)
-        0x00, 0x00, 0x00, 0x00,                      
-        0x00, 0x00,                                  // Channel name length = 0
-        0x00, 0x00                                   // Protocol length = 0
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,             // 0x03
+        DCEP_DATA_CHANNEL_RELIABLE_UNORDERED,       // 0x80
+        0xEF, 0x01,                                 // Priority (0xEF01)
+        0x00, 0x00, 0x00, 0x00,                     // Reliability param = 0
+        0x00, 0x00,                                 // Channel name length = 0
+        0x00, 0x00                                  // Protocol length = 0
     };
 
     result = Dcep_Init(&ctx);
@@ -243,14 +243,13 @@ void test_dcepSerializeChannelOpenMessage_PartialReliableRetransmitUnordered(voi
     TEST_ASSERT_EQUAL(DCEP_RESULT_OK, result);
 
     // Expected serialized message
-    uint8_t expected[] =
-    {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,                  // 0x03
-        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT_UNORDERED,  // e.g. 0x81
-        0x23, 0x45,                                      // Priority (0x2345)
-        0x00, 0x00, 0x00, 0x0A,                          // numRetransmissions = 10
-        0x00, 0x00,                                      // Channel name length = 0
-        0x00, 0x00                                       // Protocol length = 0
+    uint8_t expected[] = {
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,                         // 0x03
+        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT_UNORDERED,    // 0x81
+        0x23, 0x45,                                             // Priority (0x2345)
+        0x00, 0x00, 0x00, 0x0A,                                 // numRetransmissions = 10
+        0x00, 0x00,                                             // Channel name length = 0
+        0x00, 0x00                                              // Protocol length = 0
     };
 
     /* Setup channel open message. */
@@ -281,14 +280,13 @@ void test_dcepSerializeChannelOpenMessage_PartialReliableTimedUnordered(void)
     DcepContext_t ctx;
     DcepChannelOpenMessage_t channelOpenMessage = {0};
     size_t bufferLength = MAX_BUFFER_LENGTH;
-    uint8_t expected[] = 
-    {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,                     // 0x03
-        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_TIMED_UNORDERED, // Likely 0x82
-        0x67, 0x89,                                         // Priority = 0x6789
-        0x00, 0x00, 0x07, 0xD0,                             // maxLifetimeInMilliseconds = 2000 = 0x07D0
-        0x00, 0x00,                                         // Channel name length = 0
-        0x00, 0x00                                          // Protocol length = 0
+    uint8_t expected[] = {
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,                         // 0x03
+        DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_TIMED_UNORDERED,     // 0x82
+        0x67, 0x89,                                             // Priority = 0x6789
+        0x00, 0x00, 0x07, 0xD0,                                 // maxLifetimeInMilliseconds = 2000 = 0x07D0
+        0x00, 0x00,                                             // Channel name length = 0
+        0x00, 0x00                                              // Protocol length = 0
     };
 
     result = Dcep_Init(&ctx);
@@ -323,8 +321,8 @@ void test_dcepSerializeChannelOpenMessage_EmptyNameAndProtocol(void)
     DcepChannelOpenMessage_t channelOpenMessage = {0};
     size_t bufferLength = MAX_BUFFER_LENGTH;
     uint8_t expected[] = {
-        DCEP_MESSAGE_DATA_CHANNEL_OPEN,    // 0x03
-        DCEP_DATA_CHANNEL_RELIABLE,        // 0x00
+        DCEP_MESSAGE_DATA_CHANNEL_OPEN,     // 0x03
+        DCEP_DATA_CHANNEL_RELIABLE,         // 0x00
         0x00, 0x00,                         // Priority
         0x00, 0x00, 0x00, 0x00,             // Reliability parameter (0)
         0x00, 0x00,                         // Channel name length = 0
