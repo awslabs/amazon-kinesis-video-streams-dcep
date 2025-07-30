@@ -85,6 +85,7 @@ include( ${MODULE_ROOT_DIR}/test/unit-test/cmock/create_test.cmake )
 
 # Include unit-test build configuration.
 include( ${UNIT_TEST_DIR}/dcep_api/ut.cmake )
+include( ${UNIT_TEST_DIR}/dcep_endianness/ut.cmake )
 
 #  ==================================== Coverage Analysis configuration ========================================
 # Add a target for running coverage on tests.
@@ -93,5 +94,7 @@ add_custom_target( coverage
     -P ${MODULE_ROOT_DIR}/test/unit-test/cmock/coverage.cmake
     DEPENDS cmock unity
     dcep_api_utest
+    dcep_endianness_utest_le
+    dcep_endianness_utest_be
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
