@@ -220,6 +220,11 @@ DcepResult_t Dcep_DeserializeChannelOpenMessage( DcepContext_t * pCtx,
 
         reliabilityValue = DCEP_READ_UINT32( &( pDcepMessage[ DCEP_RELIABILITY_PARAMETER_OFFSET ] ) );
 
+        pChannelOpenMessage->channelNameLength = DCEP_READ_UINT16( &( pDcepMessage[ DCEP_LABEL_LENGTH_OFFSET ] ) );
+        pChannelOpenMessage->protocolLength = DCEP_READ_UINT16( &( pDcepMessage[ DCEP_PROTOCOL_LENGTH_OFFSET ] ) );
+
+        consumedLength += DCEP_HEADER_LENGTH;
+
         if( ( pChannelOpenMessage->channelType == DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT ) ||
             ( pChannelOpenMessage->channelType == DCEP_DATA_CHANNEL_PARTIAL_RELIABLE_REXMIT_UNORDERED ) )
         {
@@ -230,11 +235,15 @@ DcepResult_t Dcep_DeserializeChannelOpenMessage( DcepContext_t * pCtx,
         {
             pChannelOpenMessage->maxLifetimeInMilliseconds = reliabilityValue;
         }
-
-        pChannelOpenMessage->channelNameLength = DCEP_READ_UINT16( &( pDcepMessage[ DCEP_LABEL_LENGTH_OFFSET ] ) );
-        pChannelOpenMessage->protocolLength = DCEP_READ_UINT16( &( pDcepMessage[ DCEP_PROTOCOL_LENGTH_OFFSET ] ) );
-
-        consumedLength += DCEP_HEADER_LENGTH;
+        else if( ( pChannelOpenMessage->channelType == DCEP_DATA_CHANNEL_RELIABLE ) ||
+                 ( pChannelOpenMessage->channelType == DCEP_DATA_CHANNEL_RELIABLE_UNORDERED ) )
+        {
+            /* reliabilityValue is ignored. */
+        }
+        else
+        {
+            result = DCEP_RESULT_MALFORMED_MESSAGE;
+        }
     }
 
     if( result == DCEP_RESULT_OK )
