@@ -11,11 +11,9 @@ jobs:
     steps:
       - name: Clone This Repo
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
       - name: Generate Coverage Report
         run: |
-          sudo apt-get install -y lcov sed ruby
+          sudo apt-get install -y lcov sed cmake ruby
           cmake -S test/unit-test -B build/ -G "Unix Makefiles" -DBUILD_CLONE_SUBMODULES=ON -DCMAKE_C_FLAGS='--coverage -Wall -Wextra -Werror -DNDEBUG'
           make -C build coverage
       - name: Check Coverage
