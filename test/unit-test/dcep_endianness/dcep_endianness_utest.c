@@ -111,10 +111,10 @@ void test_dcepUint16ReadFunction( void )
     readValue = readWriteFunctions.readUint16Fn( &( buffer[ 0 ] ) );
     
 #ifdef FORCE_BIG_ENDIAN
-    /* Big-endian mode: NoSwap functions read bytes as-is (no conversion) */
-    TEST_ASSERT_EQUAL_UINT8( 0x34,
-                             ( readValue >> 8 ) & 0xFF );
+    /* Big-endian mode: should read as host order */
     TEST_ASSERT_EQUAL_UINT8( 0x12,
+                             ( readValue >> 8 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x34,
                              readValue & 0xFF );
 #else
     /* Little-endian or auto mode: should convert from network to host order */
@@ -141,7 +141,7 @@ void test_dcepUint32ReadFunction( void )
     readValue = readWriteFunctions.readUint32Fn( &( buffer[ 0 ] ) );
     
 #ifdef FORCE_BIG_ENDIAN
-    /* Big-endian mode: NoSwap functions read bytes as-is (no conversion) */
+    /* Big-endian mode: should read as host order */
     TEST_ASSERT_EQUAL_UINT8( 0x78,
                              ( readValue >> 24 ) & 0xFF );
     TEST_ASSERT_EQUAL_UINT8( 0x56,
