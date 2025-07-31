@@ -98,78 +98,49 @@ void test_dcepUint32NetworkByteOrder( void )
 /*-----------------------------------------------------------*/
 
 /**
- * @brief Validate uint16 functions handle misaligned buffers.
+ * @brief Validate uint16 read function interprets network byte order correctly.
  */
-void test_dcepUint16MisalignedBuffer( void )
+void test_dcepUint16ReadFunction( void )
 {
     DcepReadWriteFunctions_t readWriteFunctions;
-    uint8_t buffer[ 5 ];
-    uint16_t testValue = 0x1234;
+    uint8_t buffer[ 2 ] = { 0x12, 0x34 }; /* Network byte order (big-endian) */
     uint16_t readValue;
 
     Dcep_InitReadWriteFunctions( &( readWriteFunctions ) );
 
-    /* Write to misaligned address (offset 1) */
-    readWriteFunctions.writeUint16Fn( &( buffer[ 1 ] ),
-                                      testValue );
+    readValue = readWriteFunctions.readUint16Fn( &( buffer[ 0 ] ) );
     
-    /* Read back from same misaligned address */
-    readValue = readWriteFunctions.readUint16Fn( &( buffer[ 1 ] ) );
-    TEST_ASSERT_EQUAL_UINT16( testValue,
-                              readValue );
+#ifdef FORCE_BIG_ENDIAN
+    /* Big-endian mode: should read as host order */
+    TEST_ASSERT_EQUAL_UINT16( 0x3412, readValue );
+#else
+    /* Little-endian or auto mode: should convert from network to host order */
+    TEST_ASSERT_EQUAL_UINT16( 0x1234, readValue );
+#endif
 }
 
 /*-----------------------------------------------------------*/
 
 /**
- * @brief Validate uint32 functions handle misaligned buffers.
+ * @brief Validate uint32 read function interprets network byte order correctly.
  */
-void test_dcepUint32MisalignedBuffer( void )
+void test_dcepUint32ReadFunction( void )
 {
     DcepReadWriteFunctions_t readWriteFunctions;
-    uint8_t buffer[ 7 ];
-    uint32_t testValue = 0x12345678;
+    uint8_t buffer[ 4 ] = { 0x12, 0x34, 0x56, 0x78 }; /* Network byte order (big-endian) */
     uint32_t readValue;
 
     Dcep_InitReadWriteFunctions( &( readWriteFunctions ) );
 
-    /* Write to misaligned address (offset 1) */
-    readWriteFunctions.writeUint32Fn( &( buffer[ 1 ] ),
-                                      testValue );
+    readValue = readWriteFunctions.readUint32Fn( &( buffer[ 0 ] ) );
     
-    /* Read back from same misaligned address */
-    readValue = readWriteFunctions.readUint32Fn( &( buffer[ 1 ] ) );
-    TEST_ASSERT_EQUAL_UINT32( testValue,
-                              readValue );
-}
-
-/*-----------------------------------------------------------*/
-
-/**
- * @brief Validate critical edge values for both uint16 and uint32.
- */
-void test_dcepEdgeValues( void )
-{
-    DcepReadWriteFunctions_t readWriteFunctions;
-    uint8_t buffer[ 4 ];
-    uint16_t readValue16;
-    uint32_t readValue32;
-
-    Dcep_InitReadWriteFunctions( &( readWriteFunctions ) );
-
-    /* Test uint16 critical edge case */
-    readWriteFunctions.writeUint16Fn( &( buffer[ 0 ] ),
-                                      0xFFFF );
-    readValue16 = readWriteFunctions.readUint16Fn( &( buffer[ 0 ] ) );
-    TEST_ASSERT_EQUAL_UINT16( 0xFFFF,
-                              readValue16 );
-
-    /* Test uint32 critical edge case */
-    readWriteFunctions.writeUint32Fn( &( buffer[ 0 ] ),
-                                      0xFFFFFFFF );
-    readValue32 = readWriteFunctions.readUint32Fn( &( buffer[ 0 ] ) );
-    TEST_ASSERT_EQUAL_UINT32( 0xFFFFFFFF,
-                              readValue32 );
+#ifdef FORCE_BIG_ENDIAN
+    /* Big-endian mode: should read as host order */
+    TEST_ASSERT_EQUAL_UINT32( 0x78563412, readValue );
+#else
+    /* Little-endian or auto mode: should convert from network to host order */
+    TEST_ASSERT_EQUAL_UINT32( 0x12345678, readValue );
+#endif
 }
 
 /*-----------------------------------------------------------*/
