@@ -112,10 +112,16 @@ void test_dcepUint16ReadFunction( void )
     
 #ifdef FORCE_BIG_ENDIAN
     /* Big-endian mode: should read as host order */
-    TEST_ASSERT_EQUAL_UINT16( 0x3412, readValue );
+    TEST_ASSERT_EQUAL_UINT8( 0x12,
+                             ( readValue >> 8 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x34,
+                             readValue & 0xFF );
 #else
     /* Little-endian or auto mode: should convert from network to host order */
-    TEST_ASSERT_EQUAL_UINT16( 0x1234, readValue );
+    TEST_ASSERT_EQUAL_UINT8( 0x12,
+                             ( readValue >> 8 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x34,
+                             readValue & 0xFF );
 #endif
 }
 
@@ -136,10 +142,24 @@ void test_dcepUint32ReadFunction( void )
     
 #ifdef FORCE_BIG_ENDIAN
     /* Big-endian mode: should read as host order */
-    TEST_ASSERT_EQUAL_UINT32( 0x78563412, readValue );
+    TEST_ASSERT_EQUAL_UINT8( 0x78,
+                             ( readValue >> 24 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x56,
+                             ( readValue >> 16 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x34,
+                             ( readValue >> 8 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x12,
+                             readValue & 0xFF );
 #else
     /* Little-endian or auto mode: should convert from network to host order */
-    TEST_ASSERT_EQUAL_UINT32( 0x12345678, readValue );
+    TEST_ASSERT_EQUAL_UINT8( 0x12,
+                             ( readValue >> 24 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x34,
+                             ( readValue >> 16 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x56,
+                             ( readValue >> 8 ) & 0xFF );
+    TEST_ASSERT_EQUAL_UINT8( 0x78,
+                             readValue & 0xFF );
 #endif
 }
 
