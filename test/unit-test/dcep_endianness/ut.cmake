@@ -47,6 +47,7 @@ list(APPEND utest_dep_list
         )
 
 # Create test for little-endian path
+# dcep_endianness_utest_le uses dcep_endianness_utest.c with FORCE_LITTLE_ENDIAN
 set(utest_name_le "${project_name}_utest_le")
 set(utest_source "${project_name}/${project_name}_utest.c")
 
@@ -76,6 +77,7 @@ create_test(${utest_name_le}
 target_compile_definitions(${utest_name_le} PRIVATE FORCE_LITTLE_ENDIAN)
 
 # Create test for big-endian path
+# dcep_endianness_utest_be uses dcep_endianness_utest.c with FORCE_BIG_ENDIAN
 set(utest_name_be "${project_name}_utest_be")
 
 # Create separate library for big-endian testing
