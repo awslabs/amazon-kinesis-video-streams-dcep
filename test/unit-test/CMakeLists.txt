@@ -85,9 +85,7 @@ include( ${MODULE_ROOT_DIR}/test/unit-test/cmock/create_test.cmake )
 
 # Include unit-test build configuration.
 include( ${UNIT_TEST_DIR}/dcep_api/ut.cmake )
-# dcep_endianness creates two test executables from the same source file:
-# - dcep_endianness_utest_le (with FORCE_LITTLE_ENDIAN)
-# - dcep_endianness_utest_be (with FORCE_BIG_ENDIAN)
+# dcep_endianness creates endianness test using native platform detection
 include( ${UNIT_TEST_DIR}/dcep_endianness/ut.cmake )
 
 #  ==================================== Coverage Analysis configuration ========================================
@@ -97,7 +95,6 @@ add_custom_target( coverage
     -P ${MODULE_ROOT_DIR}/test/unit-test/cmock/coverage.cmake
     DEPENDS cmock unity
     dcep_api_utest
-    dcep_endianness_utest_le  # Little-endian endianness tests
-    dcep_endianness_utest_be  # Big-endian endianness tests
+    dcep_endianness_utest     # Endianness tests with native detection
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
