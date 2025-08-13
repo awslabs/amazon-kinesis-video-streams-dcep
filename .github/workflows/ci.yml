@@ -41,26 +41,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Run Little Endian Tests (x86_64)
         run: |
-          echo "Building Little Endian Test Container (x86_64)..."
           docker build -f docker/little-endian/Dockerfile -t dcep-test-le .
-          echo "Running Little Endian Tests..."
-          if docker run --rm dcep-test-le; then
-            echo "LITTLE ENDIAN TESTS PASSED"
-          else
-            echo "LITTLE ENDIAN TESTS FAILED"
-            exit 1
-          fi
+          docker run --rm dcep-test-le
       - name: Run Big Endian Tests (s390x)
         run: |
-          echo "Building Big Endian Test Container (s390x)..."
           docker build -f docker/big-endian/Dockerfile -t dcep-test-be --platform linux/s390x .
-          echo "Running Big Endian Tests..."
-          if docker run --rm --platform linux/s390x dcep-test-be; then
-            echo "BIG ENDIAN TESTS PASSED"
-          else
-            echo "BIG ENDIAN TESTS FAILED"
-            exit 1
-          fi
+          docker run --rm --platform linux/s390x dcep-test-be
       - name: Endianness Test Summary
         if: always()
         run: |
@@ -68,4 +54,5 @@ jobs:
           echo "  - Little Endian (x86_64): Tests completed"
           echo "  - Big Endian (s390x): Tests completed"
           echo "  - All endianness tests verify network byte order handling"
+
 
