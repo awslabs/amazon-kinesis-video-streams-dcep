@@ -25,8 +25,5 @@ RUN cmake -S test/unit-test -B build-docker/ -G "Unix Makefiles" \
 
 RUN make -C build-docker all
 
-# Copy endianness check utility
-COPY docker/check-endian.c docker/check-endian.c
-
 # Run tests
-CMD ["sh", "-c", "echo 'Starting Little Endian Tests (x86_64)...' && gcc -o /tmp/check-endian docker/check-endian.c && /tmp/check-endian && echo '' && cd build-docker && echo '📋 Running CTest with detailed output...' && ctest --output-on-failure --verbose && echo '✅ Little Endian Tests PASSED - Network byte order handling verified on x86_64'"]
+CMD ["sh", "-c", "echo '🔍 Starting Little Endian Tests (x86_64)...' && echo '#include <stdio.h>\n#include <stdint.h>\nint main() { uint32_t test = 0x12345678; uint8_t *bytes = (uint8_t*)&test; printf(\"System: %s ENDIAN\\n\", bytes[0] == 0x78 ? \"LITTLE\" : \"BIG\"); return 0; }' > /tmp/check.c && gcc -o /tmp/check /tmp/check.c && /tmp/check && cd build-docker && echo 'Running CTest with detailed output...' && ctest --output-on-failure --verbose && echo 'Little Endian Tests PASSED - Network byte order handling verified on x86_64'"]
