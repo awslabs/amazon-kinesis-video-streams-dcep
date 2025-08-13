@@ -1,0 +1,33 @@
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ruby \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy source code
+COPY . .
+
+# Initialize submodules
+RUN git config --global --add safe.directory /workspace && \
+    git submodule update --init --recursive test/CMock
+
+# Build and run tests
+RUN cmake -S test/unit-test -B build-docker/ -G "Unix Makefiles" \
+    -DBUILD_CLONE_SUBMODULES=ON \
+    -DCMAKE_C_FLAGS='--coverage -Wall -Wextra -Werror -DNDEBUG'
+
+RUN make -C build-docker all -j$(nproc)
+
+# Run tests
+CMD ["sh", "-c", "\
+    cd build-docker && \
+    ctest --output-on-failure && \
+    echo 'Little Endian Tests PASSED'\
+    "]
