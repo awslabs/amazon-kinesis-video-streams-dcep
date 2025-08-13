@@ -16,7 +16,8 @@ WORKDIR /workspace
 COPY . .
 
 # Initialize submodules
-RUN git submodule update --init --recursive test/CMock
+RUN git config --global --add safe.directory /workspace && \
+    git submodule update --init --recursive test/CMock
 
 # Build and run tests
 RUN cmake -S test/unit-test -B build-docker/ -G "Unix Makefiles" \
