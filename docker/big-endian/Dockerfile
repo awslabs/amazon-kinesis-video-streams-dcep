@@ -1,10 +1,9 @@
 FROM s390x/ubuntu:22.04
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
-    lcov \
     ruby \
     git \
     && rm -rf /var/lib/apt/lists/*
@@ -24,7 +23,7 @@ RUN cmake -S test/unit-test -B build-docker/ -G "Unix Makefiles" \
     -DBUILD_CLONE_SUBMODULES=ON \
     -DCMAKE_C_FLAGS='--coverage -Wall -Wextra -Werror -DNDEBUG'
 
-RUN make -C build-docker all
+RUN make -C build-docker all -j$(nproc)
 
 # Run tests
 CMD ["sh", "-c", "\
