@@ -49,7 +49,7 @@ if( COV_ANALYSIS )
         add_library( coverity_analysis
                      ${DCEP_SOURCES} )
 
-        # SDP public include path.
+        # DCEP public include path.
         target_include_directories( coverity_analysis PUBLIC
                                     ${DCEP_INCLUDE_PUBLIC_DIRS} )
 
