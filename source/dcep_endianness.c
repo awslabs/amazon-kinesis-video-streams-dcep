@@ -73,7 +73,13 @@ void Dcep_InitReadWriteFunctions( DcepReadWriteFunctions_t * pReadWriteFunctions
 {
     uint8_t isLittleEndian;
 
+#ifdef FORCE_LITTLE_ENDIAN
+    isLittleEndian = 1;
+#elif defined(FORCE_BIG_ENDIAN)
+    isLittleEndian = 0;
+#else
     isLittleEndian = ( *( uint8_t * )( &( uint16_t ){ 1 } ) == 1 );
+#endif
 
     if( isLittleEndian != 0 )
     {
