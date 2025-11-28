@@ -82,7 +82,9 @@ DcepResult_t Dcep_SerializeChannelOpenMessage( DcepContext_t * pCtx,
         ( pChannelOpenMessage == NULL ) ||
         ( pBuffer == NULL ) ||
         ( pBufferLength == NULL ) ||
-        ( *pBufferLength < DCEP_HEADER_LENGTH ) )
+        ( *pBufferLength < DCEP_HEADER_LENGTH ) ||
+        ( ( pChannelOpenMessage->channelNameLength > 0 ) && ( pChannelOpenMessage->pChannelName == NULL ) ) ||
+        ( ( pChannelOpenMessage->protocolLength > 0 ) && ( pChannelOpenMessage->pProtocol == NULL ) ) )
     {
         result = DCEP_RESULT_BAD_PARAM;
     }

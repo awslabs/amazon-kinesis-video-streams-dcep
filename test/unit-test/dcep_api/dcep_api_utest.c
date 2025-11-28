@@ -506,6 +506,48 @@ void test_dcepSerializeChannelOpenMessage_OutOfMemory_Protocol( void )
 
 /*-----------------------------------------------------------*/
 
+/**
+ * @brief Validate Dcep_SerializeChannelOpenMessage with null pointers but non-zero lengths.
+ */
+void test_dcepSerializeChannelOpenMessage_NullPointers( void )
+{
+    DcepResult_t result;
+    DcepContext_t ctx;
+    DcepChannelOpenMessage_t channelOpenMessage = { 0 };
+    size_t bufferLength = MAX_BUFFER_LENGTH;
+
+    result = Dcep_Init( &( ctx ) );
+    TEST_ASSERT_EQUAL( DCEP_RESULT_OK, result );
+
+    /* Test NULL channel name pointer with non-zero length. */
+    channelOpenMessage.channelType = DCEP_DATA_CHANNEL_RELIABLE;
+    channelOpenMessage.priority = 0x1234;
+    channelOpenMessage.pChannelName = NULL;
+    channelOpenMessage.channelNameLength = 5;
+    channelOpenMessage.pProtocol = NULL;
+    channelOpenMessage.protocolLength = 0;
+
+    result = Dcep_SerializeChannelOpenMessage( &( ctx ),
+                                               &( channelOpenMessage ),
+                                               &( testBuffer[ 0 ] ),
+                                               &( bufferLength ) );
+    TEST_ASSERT_EQUAL( DCEP_RESULT_BAD_PARAM, result );
+
+    /* Test NULL protocol pointer with non-zero length. */
+    channelOpenMessage.pChannelName = NULL;
+    channelOpenMessage.channelNameLength = 0;
+    channelOpenMessage.pProtocol = NULL;
+    channelOpenMessage.protocolLength = 3;
+
+    result = Dcep_SerializeChannelOpenMessage( &( ctx ),
+                                               &( channelOpenMessage ),
+                                               &( testBuffer[ 0 ] ),
+                                               &( bufferLength ) );
+    TEST_ASSERT_EQUAL( DCEP_RESULT_BAD_PARAM, result );
+}
+
+/*-----------------------------------------------------------*/
+
 /* ==============================  Test Cases for Channel Ack Message Serialization ============================== */
 
 /**
